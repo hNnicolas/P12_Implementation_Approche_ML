@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 import pickle
 from pathlib import Path
 import uvicorn
@@ -13,6 +14,17 @@ app = FastAPI(
     version="1.0.0",
 )
 
+# ---- middleware CORS ----
+# Middleware CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Pour tester, permet toutes les origines
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ---- Chargement du modèle ----
 model_path = Path("exports/model_latest.pkl")
 try:
     with open(model_path, "rb") as f:
@@ -22,6 +34,7 @@ except Exception as e:
     print(f"⚠️ Erreur lors du chargement du modèle : {e}")
     model = None
 
+# ---- Route de prédiction ----
 @app.post("/predict")
 async def predict_claim(data: ClaimRequest):
     if model is None:

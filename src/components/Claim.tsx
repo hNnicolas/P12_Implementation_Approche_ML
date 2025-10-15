@@ -28,7 +28,7 @@ export default function ClaimComponent({
 
     try {
       // 1️⃣ Appel POST vers l'API FastAPI
-      const res = await fetch("http://localhost:8000/predict", {
+      const res = await fetch(`/api/claims/${claim.id}/tag`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_claim: claim.content }),

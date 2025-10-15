@@ -1,28 +1,27 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { setClaimTag } from '@/database/queries.ts';
+import { NextRequest, NextResponse } from "next/server";
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest) {
   try {
-    const { tag } = await request.json();
-    const resolvedParams = await params;
-    const claimId = parseInt(resolvedParams.id);
+    const claimData = await request.json();
 
-    if (isNaN(claimId)) {
-      return NextResponse.json({ error: 'Invalid claim ID' }, { status: 400 });
+    const response = await fetch("http://localhost:8000/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_claim: claimData.user_claim }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur API Python");
     }
 
-    if (!tag) {
-      return NextResponse.json({ error: 'Tag is required' }, { status: 400 });
-    }
+    const data = await response.json();
 
-    await setClaimTag(claimId, tag);
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ prediction: data.prediction });
   } catch (error) {
-    console.error('Error updating claim tag:', error);
-    return NextResponse.json({ error: 'Failed to update claim tag' }, { status: 500 });
+    console.error("Erreur POST /predict:", error);
+    return NextResponse.json(
+      { error: "Erreur lors de la génération de la prédiction" },
+      { status: 500 }
+    );
   }
 }
