@@ -33,6 +33,13 @@ npm run db:reset
 npm run dev
 ```
 
+### 4.🤖 Lancement du serveur FastAPI (ML)
+
+```bash
+uvicorn api:app --reload --host 0.0.0.0 --port 8000
+```
+
+
 ## 📁 Project Structure
 
 ```
