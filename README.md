@@ -11,15 +11,18 @@
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js
 - Docker and Docker Compose
 
 ### 1. Clone and Install
+
 ```bash
 npm install
 ```
 
 ### 2. Database Setup
+
 ```bash
 # Start PostgreSQL in Docker
 npm run db:start
@@ -29,16 +32,30 @@ npm run db:reset
 ```
 
 ### 3. Start Development
+
 ```bash
 npm run dev
 ```
 
-### 4.🤖 Lancement du serveur FastAPI (ML)
+### 4. Lancer le projet localement avec la clé API
+
+1. Copier `.env.example` en `.env.local`:
+
+```bash
+cp .env.example .env.local
+```
+
+2. Remplir vos propres valeurs pour chaque variable
+
+```bash
+MISTRAL_API_KEY=votre_cle_api_personnelle
+```
+
+### 5.🤖 Lancement du serveur FastAPI (ML)
 
 ```bash
 uvicorn api:app --reload --host 0.0.0.0 --port 8000
 ```
-
 
 ## 📁 Project Structure
 
@@ -57,7 +74,7 @@ src/
 ## 🛠️ Available Scripts
 
 | Command            | Description                             |
-|--------------------|-----------------------------------------|
+| ------------------ | --------------------------------------- |
 | `npm run dev`      | Start development server with Turbopack |
 | `npm run db:start` | Start PostgreSQL container              |
 | `npm run db:stop`  | Stop PostgreSQL container               |
